@@ -1,5 +1,9 @@
 package net.Arcomp.MekaFacades;
 
+import net.Arcomp.MekaFacades.item.Moditems;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.neoforged.neoforge.common.NeoForge;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -24,6 +28,10 @@ public class MekaFacades {
     public MekaFacades(IEventBus modEventBus, ModContainer modContainer)   {
       modEventBus.addListener(this::commonSetup);
 
+        NeoForge.EVENT_BUS.register(this);
+
+        Moditems.register(modEventBus);
+
         modEventBus.addListener(this::addCreative);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -36,7 +44,10 @@ public class MekaFacades {
 
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
-
+if(event.getTabKey()== CreativeModeTabs.INGREDIENTS){
+    event.accept(Moditems.BOTAODUPLO);
+    event.accept(Moditems.BOTAOSIMPLES);
+}
     }
 
 
